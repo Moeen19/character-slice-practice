@@ -1,24 +1,24 @@
 import Link from "next/link";
 import Button from "../Components/Button.js";
+import PageBtn from "../Components/PageBtn.js";
 
 async function getCharacters(page) {
   let string = [];
   let num = parseInt(page);
 
-  let start = ( num - 1) * 4 + 1;
+  let start = (num - 1) * 4 + 1;
   let end = num * 4;
 
-  for(let i=start; i<= end; i++){
-    string.push(`${i}`)
+  for (let i = start; i <= end; i++) {
+    string.push(`${i}`);
   }
-  string = string.join(',');
+  string = string.join(",");
 
   const response = await fetch(
     `https://rickandmortyapi.com/api/character/${string}`
   );
   if (response.status === 200) {
     const data = await response.json();
-    // console.log(data);
     const characters = await data;
     console.log(page);
 
@@ -30,7 +30,12 @@ async function getCharacters(page) {
 
 export default async function Characters({ params: { page } }) {
   const charArr = await getCharacters(page);
-
+  let pages = [];
+  for (let i = parseInt(page); i <= parseInt(page) + 5; i++) {
+    if(i < 208) {
+      pages.push(i);
+    }
+  }
   return (
     <main className="px-[96px] py-[32px]">
       <div className="mb-[28px]">
@@ -42,6 +47,11 @@ export default async function Characters({ params: { page } }) {
 
       <div className="flex justify-between mb-[20px]">
         <Button text="Previous" page={page} />
+        <div className="flex gap-[20px]">
+          {pages.map((item) => {
+            return <PageBtn text={item} />;
+          })}
+        </div>
         <Button text="Next" page={page} />
       </div>
 

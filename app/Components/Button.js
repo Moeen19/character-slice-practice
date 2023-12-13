@@ -6,7 +6,7 @@ const Button = ({ text, page }) => {
         let num = Number(page);
         if(text === 'Previous' && num > 1){
             return `/${num - 1}`;
-        }else if(text === 'Next'){
+        }else if(text === 'Next' && num != 207){
            return `/${num + 1}`
         }
         return `/${num}`
